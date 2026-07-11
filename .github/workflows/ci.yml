@@ -47,7 +47,7 @@ jobs:
         run: terraform validate
 
       - name: Build Docker Image
-        run: docker build -t cloud-profile-app .
+        run: docker build -t user-profile-cloud-app .
 
       - name: Validate Docker Compose
         run: docker compose config
@@ -61,5 +61,5 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker tag cloud-profile-app ghcr.io/${{ github.repository_owner }}/cloud-profile-app:latest
-          docker push ghcr.io/${{ github.repository_owner }}/User-Profile-Cloud-App:latesttest
+          docker tag user-profile-cloud-app ghcr.io/geevfted/user-profile-cloud-app:latest
+          docker push ghcr.io/geevfted/user-profile-cloud-app:latest
