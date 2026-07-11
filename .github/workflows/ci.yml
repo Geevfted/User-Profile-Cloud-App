@@ -45,7 +45,7 @@ jobs:
         working-directory: Terraform
         run: terraform validate
 
-            - name: Build Docker Image
+      - name: Build Docker Image
         run: docker build -t cloud-profile-app .
 
       - name: Validate Docker Compose
