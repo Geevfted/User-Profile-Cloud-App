@@ -200,17 +200,17 @@ resource "aws_security_group" "web_sg" {
   }
 
   ingress {
-  description = "Node App"
+    description = "Node App"
 
-  from_port = 3000
-  to_port   = 3000
+    from_port = 3000
+    to_port   = 3000
 
-  protocol = "tcp"
+    protocol = "tcp"
 
-  cidr_blocks = [
-    "0.0.0.0/0"
-  ]
-}
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
 
   egress {
 
@@ -245,7 +245,7 @@ resource "aws_instance" "profile_app_server" {
   iam_instance_profile = aws_iam_instance_profile.profile_app_profile.name
 
   user_data = file("${path.module}/../scripts/user-data.sh")
-  
+
   associate_public_ip_address = true
 
   tags = {
