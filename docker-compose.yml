@@ -60,7 +60,7 @@ services:
     - "4566:4566"
 
    environment:
-    SERVICES: s3
+    SERVICES: s3,iam,sts,ec2
     DEBUG: 1
 
    volumes:

@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 
+# Environment variables for production
+.env.production
+
 # Logs
 *.log
 npm-debug.log*
@@ -17,10 +20,16 @@ Thumbs.db
 .idea/
 
 # Terraform
-Terraform/.terraform/
-Terraform/*.tfstate
-Terraform/*.tfstate.*
-Terraform/.terraform.lock.hcl
+# Terraform
+Terraform-aws/.terraform/
+Terraform-aws/*.tfstate
+Terraform-aws/*.tfstate.*
+Terraform-aws/.terraform.lock.hcl
+
+Terraform-localstack/.terraform/
+Terraform-localstack/*.tfstate
+Terraform-localstack/*.tfstate.*
+Terraform-localstack/.terraform.lock.hcl
 
 # LocalStack runtime files
 localstack/cache/
