@@ -234,7 +234,7 @@ resource "aws_instance" "profile_app_server" {
 
   instance_type = "t3.micro"
 
-  key_name = aws_key_pair.profile_app_key.key_name
+  key_name = "profile_app_key"
 
   subnet_id = aws_subnet.public_subnet.id
 
@@ -251,10 +251,4 @@ resource "aws_instance" "profile_app_server" {
   tags = {
     Name = "profile-app-server"
   }
-}
-resource "aws_key_pair" "profile_app_key" {
-
-  key_name = "profile-app-key"
-
-  public_key = file(pathexpand("~/.ssh/profile-app-key.pub"))
 }
