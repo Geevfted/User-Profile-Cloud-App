@@ -20,17 +20,19 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
 
-script: |
-  cd /opt/profile-app
+          script: |
+            cd /opt/profile-app
 
-  printf "%s\n" "${{ secrets.ENV_PRODUCTION }}" > .env.production
+            cat > .env.production <<'EOF'
+            ${{ secrets.ENV_PRODUCTION }}
+            EOF
+            
+            sudo docker compose -f docker-compose.prod.yml down || true
 
-  sudo docker compose -f docker-compose.prod.yml down || true
+            sudo docker compose -f docker-compose.prod.yml pull
 
-  sudo docker compose -f docker-compose.prod.yml pull
+            sudo docker compose -f docker-compose.prod.yml up -d
 
-  sudo docker compose -f docker-compose.prod.yml up -d
-
-  sudo docker image prune -f
+            sudo docker image prune -f
 
           
