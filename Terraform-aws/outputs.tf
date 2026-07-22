@@ -5,5 +5,5 @@ output "bucket_name" {
 
 output "ec2_public_ip" {
   description = "Your IP is"
-  value = aws_instance.profile_app_server.public_ip
+  value       = aws_instance.profile_app_server.public_ip
 }
