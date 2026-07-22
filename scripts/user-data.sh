@@ -7,37 +7,36 @@ apt update -y
 # Install Docker
 apt install -y docker.io
 
-# Start Docker
 systemctl enable docker
 systemctl start docker
-
-# Install Git
-apt install -y git
 
 # Install Docker Compose
 apt install -y docker-compose-plugin
 
-cd /home/ubuntu
+# Allow ubuntu user to use Docker
+usermod -aG docker ubuntu
 
-# Clone only if it doesn't exist
-if [ ! -d "mongo-test-project" ]; then
-    git clone --branch main https://github.com/geevfted/mongo-test-project.git
-fi
+# Create deployment directory
+mkdir -p /opt/profile-app
 
-cd /home/ubuntu/mongo-test-project
+# Make ubuntu the owner of the directory
+chown ubuntu:ubuntu /opt/profile-app
 
-git pull --ff-only origin main
+# Create docker-compose.prod.yml
+cat <<EOF >/opt/profile-app/docker-compose.prod.yml
+version: "3.8"
 
-# Always pull the latest image
-echo "Updating application..."
-docker compose -f docker-compose.prod.yml pull
+services:
+  app:
+    image: ghcr.io/geevfted/user-profile-cloud-app:latest
 
-# Start or update the containers
-echo "Starting containers..."
-docker compose -f docker-compose.prod.yml up -d
+    container_name: profile-app
 
-# Remove old unused images
-echo "Cleaning old Docker images..."
-docker image prune -f
+    restart: unless-stopped
 
-echo "Deployment completed successfully."
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - .env.production
+EOF

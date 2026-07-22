@@ -234,7 +234,7 @@ resource "aws_instance" "profile_app_server" {
 
   instance_type = "t3.micro"
 
-  key_name = "profile_app_key"
+  key_name = "profile-app-key"
 
   subnet_id = aws_subnet.public_subnet.id
 

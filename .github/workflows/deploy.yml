@@ -2,54 +2,31 @@ name: Cloud Profile App Deployment
 
 on:
   workflow_run:
-    workflow: ["Cloud Profile App CI"]
+    workflows: ["Cloud Profile App CI"]
     types:
       - completed
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   deploy:
-
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
-steps:
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Docker Image
-        run: docker build -t user-profile-cloud-app .
-
-      - name: Tag Docker Image
-        run: docker tag user-profile-cloud-app ghcr.io/geevfted/user-profile-cloud-app:latest
-
-      - name: Push Docker Image
-        run: docker push ghcr.io/geevfted/user-profile-cloud-app:latest
-
+    steps:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
+
           script: |
-            cd /home/ubuntu/mongo-test-project
+            cd /opt/profile-app
 
-            git pull --ff-only origin main
+            docker compose down || true
 
-            docker compose -f docker-compose.prod.yml pull
+            docker compose pull
 
-            docker compose -f docker-compose.prod.yml up -d
-      
+            docker compose up -d
+
+            docker image prune -f
