@@ -21,12 +21,17 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /opt/profile-app
+              cd /opt/profile-app
 
-            docker compose down || true
+               cat > .env.production << 'EOF'
+                ${{ secrets.ENV_PRODUCTION }}
+                EOF
 
-            docker compose pull
+                sudo docker compose down || true
 
-            docker compose up -d
+                sudo docker compose pull
 
-            docker image prune -f
+                sudo docker compose up -d
+
+                sudo docker image prune -f
+           
