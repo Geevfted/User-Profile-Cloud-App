@@ -10,8 +10,11 @@ apt install -y docker.io
 systemctl enable docker
 systemctl start docker
 
-# Install Docker Compose
-apt install -y docker-compose-plugin
+# Install Docker Compose V2
+apt install -y docker-compose-v2
+
+# Verify Docker Compose installation
+docker compose version
 
 # Allow ubuntu user to use Docker
 usermod -aG docker ubuntu
