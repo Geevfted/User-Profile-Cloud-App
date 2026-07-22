@@ -27,7 +27,6 @@ chown ubuntu:ubuntu /opt/profile-app
 
 # Create docker-compose.prod.yml
 cat <<EOF >/opt/profile-app/docker-compose.prod.yml
-version: "3.8"
 
 services:
   app:
