@@ -8,8 +8,7 @@ const upload = multer ({
 });
 const path = require("path");
 const fs = require("fs");
-const { listBuckets,
-        uploadFileToS3,
+const { uploadFileToS3,
         getFileFromS3,
  } = require("./s3");
 const { MongoClient } = require("mongodb");
@@ -33,8 +32,6 @@ async function start() {
         db = client.db(DATABASE);
 
         console.log("✅ Connected to MongoDB");
-
-        await listBuckets();
 
         await uploadFileToS3("profile-images", 
             path.join(__dirname, "images/image1.jpg"), 
