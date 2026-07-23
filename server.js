@@ -33,7 +33,7 @@ async function start() {
 
         console.log("✅ Connected to MongoDB");
 
-        await uploadFileToS3("profile-images", 
+        await uploadFileToS3(process.env.S3_BUCKET, 
             path.join(__dirname, "images/image1.jpg"), 
             "image1.jpg"
         );
@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
 app.get("/profile-image", async (req, res)=> {
     
     try {
-        const response = await getFileFromS3("profile-images", "image1.jpg");
+        const response = await getFileFromS3(process.env.S3_BUCKET, "image1.jpg");
 
         res.setHeader("Content-Type", response.ContentType);
 
@@ -75,7 +75,7 @@ app.get("/profile-image", async (req, res)=> {
 
         if (req.file) {
             await uploadFileToS3(
-                "profile-images",
+                process.env.S3_BUCKET,
                 req.file.buffer,
                 "image1.jpg"
             );
