@@ -5,22 +5,13 @@ const {
   GetObjectCommand,
 } = require("@aws-sdk/client-s3");
 
-
 const fs = require("fs");
-const path = require("path");
 
 const s3 = new S3Client({
-  region: "us-east-1",
-  endpoint: process.env.S3_ENDPOINT,
-  credentials: {
-    accessKeyId: "test",
-    secretAccessKey: "test",
-  },
-  forcePathStyle: true,
+  region: process.env.AWS_REGION,
 });
 
 async function listBuckets() {
-    console.log("S3 Endpoint:", process.env.S3_ENDPOINT);
   try {
     const command = new ListBucketsCommand({});
     const response = await s3.send(command);
