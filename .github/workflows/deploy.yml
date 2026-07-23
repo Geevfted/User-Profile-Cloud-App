@@ -23,10 +23,8 @@ jobs:
           script: |
             cd /opt/profile-app
 
-            cat > .env.production <<'EOF'
-            ${{ secrets.ENV_PRODUCTION }}
-            EOF
-            
+            echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
+
             sudo docker compose -f docker-compose.prod.yml down || true
 
             sudo docker compose -f docker-compose.prod.yml pull
